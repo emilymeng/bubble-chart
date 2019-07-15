@@ -1,8 +1,3 @@
-// require("./lib/ads");
-// var track = require("./lib/tracking");
-
-require("component-responsive-frame/child");
-
 /* bubbleChart creation function. Returns a function that will
  * instantiate a new bubble chart given a DOM element to display
  * it in and a dataset to visualize.
@@ -17,7 +12,7 @@ function bubbleChart() {
   var height = 600;
 
   // tooltip for mouseover functionality
-  var tooltip = floatingTooltip('incident_tooltip', 240);
+  var tooltip = floatingTooltip('gates_tooltip', 240);
 
   // Locations to move bubbles towards, depending
   // on which view mode is selected.
