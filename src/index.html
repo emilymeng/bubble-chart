@@ -12,7 +12,7 @@
     <div id="toolbar">
       <a href="#" id="all" class="button active">All incidents</a>
       <a href="#" id="year" class="button">Incidents by facility</a>
-      <a href="#" id="year" class="button">Incidents by type</a>
+      <a href="#" id="type" class="button">Incidents by type</a>
     </div>
     <div id="vis"></div>
 
@@ -22,7 +22,7 @@
     </responsive-child>
 
     <script src="//d3js.org/d3.v4.min.js"></script>
-    <script src="/assets/tooltip.js"></script>
+    <script src="./assets/tooltip.js"></script>
     <script src="app.js" async></script>
     <% if (json.project.production) { %>
     <%= !json.project.embedded ? t.include("partials/_analytics.html") : "" %>
