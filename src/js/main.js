@@ -98,13 +98,13 @@ function bubbleChart() {
   function createNodes(rawData) {
     // Use the max total_amount in the data as the max in the scale's domain
     // note we have to ensure the total_amount is a number.
-    var maxAmount = d3.max(rawData, function (d) { return +d.total_amount; });
+    var maxAmount = d3.max(rawData, function (d) { return +d.incidents; });
 
     // Sizes bubbles based on area.
     // @v4: new flattened scale names.
     var radiusScale = d3.scalePow()
       .exponent(0.5)
-      .range([2, 85])
+      .range([1, 18])
       .domain([0, maxAmount]);
 
     // Use map() to convert raw data into node data.
@@ -113,12 +113,16 @@ function bubbleChart() {
     var myNodes = rawData.map(function (d) {
       return {
         id: d.id,
-        radius: radiusScale(+d.total_amount),
-        value: +d.total_amount,
-        name: d.grant_title,
+        radius: radiusScale(+d.incidents),
+        value: +d.incidents,
+        name: d.type,
         org: d.organization,
-        group: d.group,
+        group: d.report,
         year: d.start_year,
+        link: d.link,
+        date: d.date,
+        report: d.report,
+        hospital: d.hospital,
         x: Math.random() * 900,
         y: Math.random() * 800
       };
@@ -278,15 +282,22 @@ function bubbleChart() {
     // change outline to indicate hover state.
     d3.select(this).attr('stroke', 'black');
 
-    var content = '<span class="name">Title: </span><span class="value">' +
+    var content = '<span class="name">Incident: </span><span class="value">' +
                   d.name +
                   '</span><br/>' +
-                  '<span class="name">Amount: </span><span class="value">$' +
-                  addCommas(d.value) +
+                  '<span class="name">Date: </span><span class="value">' +
+                  d.date +
+                  '</span><br/>'+
+                  '<span class="name">Status: </span><span class="value">' +
+                	d.report +
                   '</span><br/>' +
-                  '<span class="name">Year: </span><span class="value">' +
-                  d.year +
+                  '<span class="name">Hospital: </span><span class="value">' +
+                  d.hospital +
+                  '</span><br/>'+
+                  '<span class="name">Link: </span><span class="value">' +
+                  d.link +
                   '</span>';
+
 
     tooltip.showTooltip(content, d3.event);
   }
@@ -383,7 +394,7 @@ function addCommas(nStr) {
 }
 
 // Load the data.
-d3.csv('assets/gates_money.csv', display);
+d3.csv('assets/safety_reports.csv', display);
 
 // setup the buttons.
 setupButtons();
