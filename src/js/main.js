@@ -15,6 +15,7 @@ function bubbleChart() {
   // Constants for sizing
   var width = 940;
   var height = 600;
+  var marginWidth = 900;
 
   // tooltip for mouseover functionality
   var tooltip = floatingTooltip('incident_tooltip', 240);
@@ -24,16 +25,20 @@ function bubbleChart() {
   var center = { x: width / 2, y: height / 2 };
 
   var yearCenters = {
-    2008: { x: width / 3, y: height / 2 },
-    2009: { x: width / 2, y: height / 2 },
-    2010: { x: 2 * width / 3, y: height / 2 }
+    "1": { x: marginWidth / 3.5, y: height / 2 },
+    "2": { x: marginWidth / 2.5, y: height / 2 },
+    "3": { x: 2 * width / 4, y: height / 2 },
+    "4": { x: 2 * width / 3.25, y: height / 2 },
+    "5": { x: 2 * width / 2.75, y: height / 2 }
   };
 
   // X locations of the year titles.
   var yearsTitleX = {
-    2008: 160,
-    2009: width / 2,
-    2010: width - 160
+    "BHC Fairfax": .3/5 * marginWidth,
+    "Cascade Behavioral": 1.3/5 * marginWidth,
+    "Fairfax Everett": 2.3/5 * marginWidth,
+    "Navos": 3.3/5 * marginWidth,
+    "Smokey Point": 4.3/5 * marginWidth,
   };
 
   // @v4 strength to apply to the position forces
@@ -118,7 +123,7 @@ function bubbleChart() {
         name: d.type,
         org: d.organization,
         group: d.report,
-        year: d.start_year,
+        year: d.facility,
         link: d.link,
         date: d.date,
         report: d.report,
