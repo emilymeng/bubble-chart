@@ -118,7 +118,7 @@ function bubbleChart() {
     var myNodes = rawData.map(function (d) {
       return {
         id: d.id,
-        radius: radiusScale(+d.incidents),
+        radius: radiusScale(+d.incidents-.5),
         value: +d.incidents,
         name: d.type,
         org: d.organization,
@@ -385,21 +385,21 @@ function setupButtons() {
  * Helper function to convert a number into a string
  * and add commas to it to improve presentation.
  */
-function addCommas(nStr) {
-  nStr += '';
-  var x = nStr.split('.');
-  var x1 = x[0];
-  var x2 = x.length > 1 ? '.' + x[1] : '';
-  var rgx = /(\d+)(\d{3})/;
-  while (rgx.test(x1)) {
-    x1 = x1.replace(rgx, '$1' + ',' + '$2');
-  }
+// function addCommas(nStr) {
+//   nStr += '';
+//   var x = nStr.split('.');
+//   var x1 = x[0];
+//   var x2 = x.length > 1 ? '.' + x[1] : '';
+//   var rgx = /(\d+)(\d{3})/;
+//   while (rgx.test(x1)) {
+//     x1 = x1.replace(rgx, '$1' + ',' + '$2');
+//   }
 
-  return x1 + x2;
-}
+//   return x1 + x2;
+// }
 
 // Load the data.
-d3.csv('assets/safety_reports.csv', display);
+d3.csv('assets/safety_incidents.csv', display);
 
 // setup the buttons.
 setupButtons();
