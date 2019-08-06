@@ -8,7 +8,7 @@ a, a:visited, a:active {
 }
 
 .button {  
-  flex-grow: 3;
+  flex-grow: 3 3 auto;
   margin: 10px 5px 0px;
   min-width: 200px;
   padding: 4px 5px;
@@ -27,6 +27,8 @@ a, a:visited, a:active {
 
 
 #vis {
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 100%;
   clear: both;
@@ -36,12 +38,14 @@ a, a:visited, a:active {
 #toolbar {
   display: flex;
   justify-content: center;
-  // margin-top: 10px;
-}
+
+@media @mobile {
+  display: block;
+  }}
 
 .year {
   font-size: 18px;
-  fill: #aaa;
+  fill: @df-charcoal;
   cursor: default;
 }
 

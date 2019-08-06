@@ -13,9 +13,9 @@ require("component-responsive-frame/child");
  */
 function bubbleChart() {
   // Constants for sizing
-  var width = 940;
+  var width = 960;
   var height = 600;
-  var marginWidth = 900;
+  var marginWidth = 960;
 
   // tooltip for mouseover functionality
   var tooltip = floatingTooltip('incident_tooltip', 240);
@@ -26,19 +26,36 @@ function bubbleChart() {
 
   var yearCenters = {
     "1": { x: marginWidth / 3.5, y: height / 2 },
-    "2": { x: marginWidth / 2.5, y: height / 2 },
-    "3": { x: 2 * width / 4, y: height / 2 },
-    "4": { x: 2 * width / 3.25, y: height / 2 },
-    "5": { x: 2 * width / 2.75, y: height / 2 }
+    "2": { x: marginWidth / 2.35, y: height / 2 },
+    "3": { x: 2 * width / 3.5, y: height / 2 },
+    "4": { x: 2 * width / 2.8, y: height / 2 },
   };
 
   // X locations of the year titles.
   var yearsTitleX = {
-    "BHC Fairfax": .3/5 * marginWidth,
-    "Cascade Behavioral": 1.3/5 * marginWidth,
-    "Fairfax Everett": 2.3/5 * marginWidth,
-    "Navos": 3.3/5 * marginWidth,
-    "Smokey Point": 4.3/5 * marginWidth,
+    "Fairfax hospitals": 1/5 * marginWidth,
+    "Cascade Behavioral": 2.2/5 * marginWidth,
+    "Navos": 3.15/5 * marginWidth,
+    "Smokey Point": 4.15/5 * marginWidth,
+  };
+
+// copied the name catagory to sort by incident type
+
+    var nameCenters = {
+    "1": { x: marginWidth / 3.5, y: height / 2 },
+    "2": { x: marginWidth / 2.35, y: height / 2 },
+    "3": { x: 2 * width / 3.5, y: height / 2 },
+    "4": { x: 2 * width / 2.5, y: height / 2 },
+    "5": { x: 2 * width / 2.8, y: height / 2 },
+  };
+
+  // X locations of the name titles.
+  var nameTitleX = {
+    "Assault": 1/5 * marginWidth,
+    "Escape": 2.2/5 * marginWidth,
+    "Fall": 3.15/5 * marginWidth,
+    "Suicide attempt": 3.15/5 * marginWidth,
+    "Other": 4.15/5 * marginWidth,
   };
 
   // @v4 strength to apply to the position forces
@@ -84,7 +101,7 @@ function bubbleChart() {
   // Nice looking colors - no reason to buck the trend
   // @v4 scales now have a flattened naming scheme
   var fillColor = d3.scaleOrdinal()
-    .domain(['low', 'medium'])
+    .domain(['reported', 'unreported'])
     .range(['#48707c', '#eb9600']);
 
 
@@ -178,8 +195,8 @@ function bubbleChart() {
       .attr('fill', function (d) { return fillColor(d.group); })
       .attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
       .attr('stroke-width', 2)
-      .on('mouseover', showDetail)
-      .on('mouseout', hideDetail);
+      .on('click', showDetail)
+      .on('clicked', hideDetail);
 
     // @v4 Merge the original empty selection and the enter selection
     bubbles = bubbles.merge(bubblesE);
