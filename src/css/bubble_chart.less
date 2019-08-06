@@ -7,18 +7,21 @@ a, a:visited, a:active {
   margin: auto;
 }
 
-.button {
-  min-width: 130px;
+.button {  
+  flex-grow: 3;
+  margin: 10px 5px 0px;
+  min-width: 200px;
   padding: 4px 5px;
   cursor: pointer;
   text-align: center;
-  font-size: 13px;
+  font-size: 15px;
   border: 1px solid #e0e0e0;
-  text-decoration: none;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .button.active {
-  background: #000;
+  background: @df-middle-gray;
   color: #fff;
 }
 
@@ -31,7 +34,9 @@ a, a:visited, a:active {
 }
 
 #toolbar {
-  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  // margin-top: 10px;
 }
 
 .year {
