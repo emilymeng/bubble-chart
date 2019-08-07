@@ -1,21 +1,28 @@
 <!doctype html>
 <html lang="en-US">
-  <head>
-    <%= t.include("partials/_head.html", grunt.data.json) %>
-    <link rel="stylesheet" type="text/css" href="style.css">
-  </head>
-  <body>
 
-    <responsive-child>
-      <div class="container">
-        <div class="outmost">
-          <section class="chatter">
-            <h1>A Hidden Toll</h1>
-            <h2>Safety incidents at private psychiatric hospitals in Washington State, 2016-2018</h2>
-            <p>Hospitals in Washington state are required to report “adverse events” –  when patients or staff suffer serious, largely preventable harm in certain circumstances – to the Department of Health. At private psychiatric hospitals, the vast majority of safety incidents aren’t reported as adverse events, even when they cause serious injury or are referred for prosecution, according to a review of public records by The Seattle Times. Some incidents, such as escapes that don’t result in serious injury, likely wouldn’t meet the criteria for reporting but represent near-miss events.</p> 
-          </section>
-        </div>
- 
+<head>
+  <%= t.include("partials/_head.html", grunt.data.json) %>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+  <responsive-child>
+    <div class="container">
+      <div class="outmost">
+        <section class="chatter">
+          <h1>A Hidden Toll</h1>
+          <h2>Safety incidents at private psychiatric hospitals in Washington State, 2016-2018</h2>
+          <p>Hospitals in Washington state are required to report “adverse events” – when patients or staff suffer
+            serious, largely preventable harm in certain circumstances – to the Department of Health. At private
+            psychiatric hospitals, the vast majority of safety incidents aren’t reported as adverse events, even when
+            they cause serious injury or are referred for prosecution, according to a review of public records by The
+            Seattle Times. Some incidents, such as escapes that don’t result in serious injury, likely wouldn’t meet the
+            criteria for reporting but represent near-miss events.</p>
+        </section>
+      </div>
+
       <div class="key">
         <span class="dot-reported"></span>
         <p class="label">Reported incident</p>
@@ -24,33 +31,36 @@
       </div>
 
       <div id="toolbar">
-        <a href="#" id="all" class="button active">All incidents</a>
-        <a href="#" id="year" class="button">Incidents by facility</a>
-        <a href="#" id="type" class="button">Incidents by type</a>
+        <a id="all" class="button active">All incidents</a>
+        <a id="year" class="button">Incidents by facility</a>
+        <a id="type" class="button">Incidents by type</a>
       </div>
-<div class="outmost">
-      <div id="vis"></div>
-      </div>      
+      <div class="outmost">
+        <div id="vis"></div>
+      </div>
     </div>
 
-      <div class="source">*Assaults includes alleged sexual assault or sexual encounters where there was a question of consent
-      <br>**Sudden death, injury or medication error icludes suicide, cardiac arrest, injuries that contributed to death and medication errors that required medical follow-up or were recorded on internal incident log.
+    <div class="source">*Assaults includes alleged sexual assault or sexual encounters where there was a question of
+      consent
+      <br>**Sudden death, injury or medication error icludes suicide, cardiac arrest, injuries that contributed to death
+      and medication errors that required medical follow-up or were recorded on internal incident log.
       <br>Note: Incidents at Navos are through 3/31/2018 <br>Source: Times reporting
-          <span class="credit">Emily M. Eng / THE SEATTLE TIMES</span>
-      </div>
+      <span class="credit">Emily M. Eng / THE SEATTLE TIMES</span>
+    </div>
     </div>
 
-      <!-- content goes here -->
-    
+    <!-- content goes here -->
+
 
   </responsive-child>
 
-    <script src="//d3js.org/d3.v4.min.js"></script>
-    <script src="./assets/tooltip.js"></script>
-    <script src="app.js" async></script>
-    <% if (json.project.production) { %>
-    <%= !json.project.embedded ? t.include("partials/_analytics.html") : "" %>
-    <%= t.include("partials/_workHere.html") %>
-    <% } %>
-  </body>
+  <script src="//d3js.org/d3.v4.min.js"></script>
+  <script src="./assets/tooltip.js"></script>
+  <script src="app.js" async></script>
+  <% if (json.project.production) { %>
+  <%= !json.project.embedded ? t.include("partials/_analytics.html") : "" %>
+  <%= t.include("partials/_workHere.html") %>
+  <% } %>
+</body>
+
 </html>

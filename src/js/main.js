@@ -39,23 +39,29 @@ function bubbleChart() {
     "Smokey Point": 4.15/5 * marginWidth,
   };
 
-// copied the name catagory to sort by incident type
+  var yearsSubTitleX = {
+    "Fairfax hospitals": "Scooter",
+    "Cascade Behavioral": "Log",
+    "Navos": "Puppy",
+    "Smokey Point": "Gooter",
+  };
 
-    var nameCenters = {
-    "1": { x: marginWidth / 3.5, y: height / 2 },
-    "2": { x: marginWidth / 2.35, y: height / 2 },
-    "3": { x: 2 * width / 3.5, y: height / 2 },
-    "4": { x: 2 * width / 2.5, y: height / 2 },
-    "5": { x: 2 * width / 2.8, y: height / 2 },
+  // copied the name catagory to sort by incident type
+  var nameCenters = {
+    "1": { x: 3/10 * marginWidth, y: height / 2 },
+    "2": { x: 4/10 * marginWidth, y: height / 2 },
+    "3": { x: 5/10 * marginWidth, y: height / 2 },
+    "4": { x: 6/10 * marginWidth, y: height / 2 },
+    "5": { x: 7/10 * marginWidth, y: height / 2 },
   };
 
   // X locations of the name titles.
   var nameTitleX = {
-    "Assault": 1/5 * marginWidth,
-    "Escape": 2.2/5 * marginWidth,
-    "Fall": 3.15/5 * marginWidth,
-    "Suicide attempt": 3.15/5 * marginWidth,
-    "Other": 4.15/5 * marginWidth,
+    "Assault":          1/6 * marginWidth,
+    "Escape":           2/6 * marginWidth,
+    "Fall":             3/6 * marginWidth,
+    "Suicide attempt":  4/6 * marginWidth,
+    "Other":            5/6 * marginWidth,
   };
 
   // @v4 strength to apply to the position forces
@@ -145,6 +151,7 @@ function bubbleChart() {
         date: d.date,
         report: d.report,
         hospital: d.hospital,
+        type: d['type-key'],
         x: Math.random() * 900,
         y: Math.random() * 800
       };
@@ -195,8 +202,7 @@ function bubbleChart() {
       .attr('fill', function (d) { return fillColor(d.group); })
       .attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
       .attr('stroke-width', 2)
-      .on('click', showDetail)
-      .on('clicked', hideDetail);
+      .on('click', showDetail);
 
     // @v4 Merge the original empty selection and the enter selection
     bubbles = bubbles.merge(bubblesE);
@@ -212,7 +218,7 @@ function bubbleChart() {
     simulation.nodes(nodes);
 
     // Set initial layout to single group.
-    groupBubbles();
+    drawAllIncidents();
   };
 
   /*
@@ -233,7 +239,7 @@ function bubbleChart() {
    * x force.
    */
   function nodeYearPos(d) {
-    return yearCenters[d.year].x;
+    
   }
 
 
@@ -243,7 +249,7 @@ function bubbleChart() {
    * tick function is set to move all nodes to the
    * center of the visualization.
    */
-  function groupBubbles() {
+  function drawAllIncidents() {
     hideYearTitles();
 
     // @v4 Reset the 'x' force to draw the bubbles to the center.
@@ -253,6 +259,29 @@ function bubbleChart() {
     simulation.alpha(1).restart();
   }
 
+  /*
+   * Sets visualization in "split by year mode".
+   * The year labels are shown and the force layout
+   * tick function is set to move nodes to the
+   * yearCenter of their data's year.
+   */
+  function drawByFacility() {
+    hideYearTitles();
+    showYearTitles(yearsTitleX, yearsSubTitleX);
+
+    // @v4 Reset the 'x' force to draw the bubbles to their year centers
+    simulation.force(
+      'x',
+      d3
+        .forceX()
+        .strength(forceStrength)
+        .x(function(d) {
+          return yearCenters[d.year].x;
+        }));
+
+    // @v4 We can reset the alpha value and restart the simulation
+    simulation.alpha(1).restart();
+  }
 
   /*
    * Sets visualization in "split by year mode".
@@ -260,11 +289,19 @@ function bubbleChart() {
    * tick function is set to move nodes to the
    * yearCenter of their data's year.
    */
-  function splitBubbles() {
-    showYearTitles();
+  function drawByType() {
+    hideYearTitles();
+    showYearTitles(nameTitleX);
 
     // @v4 Reset the 'x' force to draw the bubbles to their year centers
-    simulation.force('x', d3.forceX().strength(forceStrength).x(nodeYearPos));
+    simulation.force(
+      'x',
+      d3
+        .forceX()
+        .strength(forceStrength)
+        .x(function(d) {
+          return nameCenters[d.type].x;
+        }));
 
     // @v4 We can reset the alpha value and restart the simulation
     simulation.alpha(1).restart();
@@ -280,58 +317,76 @@ function bubbleChart() {
   /*
    * Shows Year title displays.
    */
-  function showYearTitles() {
+  function showYearTitles(titles, subTitles) {
     // Another way to do this would be to create
     // the year texts once and then just hide them.
-    var yearsData = d3.keys(yearsTitleX);
+    var yearsData = d3.keys(titles);
     var years = svg.selectAll('.year')
       .data(yearsData);
 
     years.enter().append('text')
       .attr('class', 'year')
-      .attr('x', function (d) { return yearsTitleX[d]; })
+      .attr('x', function (d) { return titles[d]; })
       .attr('y', 40)
       .attr('text-anchor', 'middle')
-      .text(function (d) { return d; });
+      .text(function (d) { return d; })
+      .append('text')
+
+    if (subTitles) {
+      years.enter().append('text')
+        .attr('class', 'year')
+        .attr('x', function (d) { return titles[d]; })
+        .attr('y', 60)
+        .attr('text-anchor', 'middle')
+        .text(function (d) { return yearsSubTitleX[d]; })
+        .append('text')
+    }
   }
 
+  // last bubble clicked
+  var lastDetail;
 
   /*
    * Function called on mouseover to display the
    * details of a bubble in the tooltip.
    */
   function showDetail(d) {
-    // change outline to indicate hover state.
-    d3.select(this).attr('stroke', 'black');
+    var changed = lastDetail !== this;
 
-    var content = '<span class="name">Incident: </span><span class="value">' +
-                  d.name +
-                  '</span><br/>' +
-                  '<span class="name">Date: </span><span class="value">' +
-                  d.date +
-                  '</span><br/>'+
-                  '<span class="name">Status: </span><span class="value">' +
-                	d.report +
-                  '</span><br/>' +
-                  '<span class="name">Hospital: </span><span class="value">' +
-                  d.hospital +
-                  '</span><br/>'+
-                  '<span class="name">Link: </span><span class="value">' +
-                  d.link +
-                  '</span>';
+    hideDetail();
 
+    if (changed) {
+      // change outline to indicate hover state.
+      d3.select(this).attr('stroke', 'black');
+      lastDetail = this;
 
-    tooltip.showTooltip(content, d3.event);
+      var content =
+        '<span class="name">Incident: </span><span class="value">' +
+        d.name +
+        '</span><br/>' +
+        '<span class="name">Date: </span><span class="value">' +
+        d.date +
+        '</span><br/>'+
+        '<span class="name">Status: </span><span class="value">' +
+        d.report +
+        '</span><br/>' +
+        '<span class="name">Hospital: </span><span class="value">' +
+        d.hospital +
+        '</span><br/>'+
+        '<span class="name">Link: </span><span class="value">' +
+        '<a href="' + d.link + '">' + d.link + '</a>' +
+        '</span>';
+
+      tooltip.showTooltip(content, d3.event);
+    }
   }
 
-  /*
-   * Hides tooltip
-   */
-  function hideDetail(d) {
-    // reset outline
-    d3.select(this)
-      .attr('stroke', d3.rgb(fillColor(d.group)).darker());
+  function hideDetail() {
+    if (!lastDetail) {
+      return;
+    }
 
+    d3.select(lastDetail).attr('stroke', 'rgb(50, 78, 87)');
     tooltip.hideTooltip();
   }
 
@@ -343,10 +398,17 @@ function bubbleChart() {
    * displayName is expected to be a string and either 'year' or 'all'.
    */
   chart.toggleDisplay = function (displayName) {
-    if (displayName === 'year') {
-      splitBubbles();
-    } else {
-      groupBubbles();
+    hideDetail();
+    switch (displayName) {
+      case 'all':
+        drawAllIncidents();
+        break;
+      case 'year':
+        drawByFacility();
+        break;
+      case 'type':
+        drawByType();
+        break;
     }
   };
 
