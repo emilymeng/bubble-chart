@@ -15,7 +15,7 @@ function bubbleChart() {
   // Constants for sizing
   var width = 960;
   var height = 600;
-  var marginWidth = 960;
+  var marginWidth = 900;
 
   // tooltip for mouseover functionality
   var tooltip = floatingTooltip('incident_tooltip', 240);
@@ -27,41 +27,41 @@ function bubbleChart() {
   var yearCenters = {
     "1": { x: marginWidth / 3.5, y: height / 2 },
     "2": { x: marginWidth / 2.35, y: height / 2 },
-    "3": { x: 2 * width / 3.5, y: height / 2 },
-    "4": { x: 2 * width / 2.8, y: height / 2 },
+    "3": { x: 2 * width / 3.6, y: height / 2 },
+    "4": { x: 2 * width / 2.9, y: height / 2 },
   };
 
   // X locations of the year titles.
   var yearsTitleX = {
     "Fairfax hospitals": 1/5 * marginWidth,
     "Cascade Behavioral": 2.2/5 * marginWidth,
-    "Navos": 3.15/5 * marginWidth,
-    "Smokey Point": 4.15/5 * marginWidth,
+    "Navos": 3.25/5 * marginWidth,
+    "Smokey Point": 4.4/5 * marginWidth,
   };
 
   var yearsSubTitleX = {
-    "Fairfax hospitals": "Scooter",
-    "Cascade Behavioral": "Log",
-    "Navos": "Puppy",
-    "Smokey Point": "Gooter",
+    "Fairfax hospitals": "197 beds",
+    "Cascade Behavioral": "135 beds",
+    "Navos": "70 beds",
+    "Smokey Point": "115 beds",
   };
 
   // copied the name catagory to sort by incident type
   var nameCenters = {
-    "1": { x: 3/10 * marginWidth, y: height / 2 },
-    "2": { x: 4/10 * marginWidth, y: height / 2 },
-    "3": { x: 5/10 * marginWidth, y: height / 2 },
-    "4": { x: 6/10 * marginWidth, y: height / 2 },
-    "5": { x: 7/10 * marginWidth, y: height / 2 },
+    "1": { x: 2.9/10 * marginWidth, y: height / 2 },
+    "2": { x: 4.45/10 * marginWidth, y: height / 2 },
+    "3": { x: 5.6/10 * marginWidth, y: height / 2 },
+    "4": { x: 6.7/10 * marginWidth, y: height / 2 },
+    "5": { x: 7.7/10 * marginWidth, y: height / 2 },
   };
 
   // X locations of the name titles.
   var nameTitleX = {
-    "Assault":          1/6 * marginWidth,
-    "Escape":           2/6 * marginWidth,
-    "Fall":             3/6 * marginWidth,
-    "Suicide attempt":  4/6 * marginWidth,
-    "Other":            5/6 * marginWidth,
+    "Assault":          1.5/6 * marginWidth,
+    "Escape":           3.1/6 * marginWidth,
+    "Fall":             3.9/6 * marginWidth,
+    "Suicide attempt":  4.7/6 * marginWidth,
+    "Other":            5.5/6 * marginWidth,
   };
 
   // @v4 strength to apply to the position forces
@@ -87,7 +87,7 @@ function bubbleChart() {
   // @v4 Before the charge was a stand-alone attribute
   //  of the force layout. Now we can use it as a separate force!
   function charge(d) {
-    return -Math.pow(d.radius, 2.05) * forceStrength;
+    return -Math.pow(d.radius, 2.08) * forceStrength;
   }
 
   // Here we create a force layout and
@@ -364,6 +364,9 @@ function bubbleChart() {
         '<span class="name">Incident: </span><span class="value">' +
         d.name +
         '</span><br/>' +
+        '<span class="name">Number hurt: </span><span class="value">' +
+        d.value +
+        '</span><br/>' +
         '<span class="name">Date: </span><span class="value">' +
         d.date +
         '</span><br/>'+
@@ -373,7 +376,7 @@ function bubbleChart() {
         '<span class="name">Hospital: </span><span class="value">' +
         d.hospital +
         '</span><br/>'+
-        '<span class="name">Link: </span><span class="value">' +
+        '<span class="value">' +
         '<a href="' + d.link + '">' + d.link + '</a>' +
         '</span>';
 
