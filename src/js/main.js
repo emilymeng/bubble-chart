@@ -33,15 +33,15 @@ function bubbleChart() {
 
   // X locations of the year titles.
   var yearsTitleX = {
-    "Fairfax hospitals": 1/5 * marginWidth,
+    "Fairfax hospitals*": 1/5 * marginWidth,
     "Cascade Behavioral": 2.2/5 * marginWidth,
     "Navos": 3.25/5 * marginWidth,
     "Smokey Point": 4.4/5 * marginWidth,
   };
 
   var yearsSubTitleX = {
-    "Fairfax hospitals": "197 beds",
-    "Cascade Behavioral": "135 beds",
+    "Fairfax hospitals*": "221 beds",
+    "Cascade Behavioral": "137 beds",
     "Navos": "70 beds",
     "Smokey Point": "115 beds",
   };
@@ -364,15 +364,12 @@ function bubbleChart() {
         '<span class="name">Incident: </span><span class="value">' +
         d.name +
         '</span><br/>' +
-        '<span class="name">Number hurt: </span><span class="value">' +
+        '<span class="name">Number hurt/affected: </span><span class="value">' +
         d.value +
         '</span><br/>' +
         '<span class="name">Date: </span><span class="value">' +
         d.date +
         '</span><br/>'+
-        '<span class="name">Status: </span><span class="value">' +
-        d.report +
-        '</span><br/>' +
         '<span class="name">Hospital: </span><span class="value">' +
         d.hospital +
         '</span><br/>'+
@@ -389,7 +386,7 @@ function bubbleChart() {
       return;
     }
 
-    d3.select(lastDetail).attr('stroke', 'rgb(50, 78, 87)');
+    d3.select(lastDetail).attr('stroke', '#aaaaaa');
     tooltip.hideTooltip();
   }
 
