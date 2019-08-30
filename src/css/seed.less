@@ -2,6 +2,20 @@
 @import "bubble_chart";
 @import "reset";
 
+.visible-mobile {
+  display: none !important;
+}
+
+@media @mobile {
+  .visible-mobile {
+    display: inline !important;
+  }
+
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
 .outmost {
   display: flex;
   padding: 8px 0 0 0;
